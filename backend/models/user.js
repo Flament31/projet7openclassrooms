@@ -1,13 +1,18 @@
-const mongoose = require('mongoose');
-const uniqueValidator = require('mongoose-unique-validator');
+'use strict';
 
-const userSchema = mongoose.Schema({
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    name: { type: String, required: true },
-    firstname: { type: String, required: true }
-});
+module.exports = (sequelize, DataTypes) => {
+  const User = sequelize.define(
+    'User', {
+    email: DataTypes.STRING,
+    name: DataTypes.STRING,
+    firstname: DataTypes.STRING,
+    password: DataTypes.STRING
+  }, {}
+  );
 
-userSchema.plugin(uniqueValidator);
+  User.associate = function (models) {
+    // associations can be defined here
+  };
 
-module.exports = mongoose.model('User', userSchema);
+  return User;
+};

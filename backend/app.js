@@ -7,16 +7,11 @@ const fs = require('fs');
 const helmet = require('helmet');
 const session = require('cookie-session');
 const nocache = require('nocache');
+const sequelize = require('sequelize');
 require('dotenv').config();
+require('sequelize');
 
 const userRoutes = require('./routes/user');
-
-mongoose.connect(process.env.DB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
-    .then(() => console.log('Connexion à MongoDB réussie !'))
-    .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 const app = express();
 
