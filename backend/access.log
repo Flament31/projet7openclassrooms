@@ -65,3 +65,5 @@
 ::ffff:127.0.0.1 - - [03/Feb/2022:17:24:10 +0000] "POST /api/auth/signup HTTP/1.1" 201 34 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:96.0) Gecko/20100101 Firefox/96.0"
 ::ffff:127.0.0.1 - - [03/Feb/2022:17:28:40 +0000] "POST /api/auth/signup HTTP/1.1" 201 34 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:96.0) Gecko/20100101 Firefox/96.0"
 ::ffff:127.0.0.1 - - [03/Feb/2022:17:31:37 +0000] "POST /api/auth/signup HTTP/1.1" 201 34 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:96.0) Gecko/20100101 Firefox/96.0"
+::ffff:127.0.0.1 - - [03/Feb/2022:17:41:08 +0000] "POST /api/auth/signup HTTP/1.1" 201 31 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:96.0) Gecko/20100101 Firefox/96.0"
+::ffff:127.0.0.1 - - [03/Feb/2022:17:41:12 +0000] "POST /api/auth/signup HTTP/1.1" 201 31 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:96.0) Gecko/20100101 Firefox/96.0"
