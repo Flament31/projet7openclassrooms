@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from "./pages/Home";
+import Profils from "./pages/Profils";
 import { hasAuthenticated } from "./services/AuthApi";
 import Auth from "./contexts/auth";
 import Header from './components/Header';
@@ -15,7 +16,8 @@ const App = () => {
       <Router>
         <Header />
         <Routes>
-          <Route exact path="/" element={<Home />} />
+          <Route exact path="/" element={<Home />} />,
+          <Route exact path="/profils" element={<Profils />} />
         </Routes>
       </Router>
     </Auth.Provider>

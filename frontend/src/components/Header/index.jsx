@@ -1,3 +1,6 @@
+import { Link } from 'react-router-dom'
+
+
 function Header() {
 
     return (
@@ -17,7 +20,7 @@ function Header() {
                                     <a className="nav-link" href="index.html">Portail</a>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link" href="panier.html">Profil</a>
+                                    <Link className="nav-link" to="/profils">Profils</Link>
                                 </li>
                                 <li>
                                     <button>Deconnexion</button>
