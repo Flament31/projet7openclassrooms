@@ -2,12 +2,13 @@ import Log from "../../components/Log";
 
 const Home = () => {
     return (
-        <div className="home">
-            <div className="main">
-                <div className="home-header">
-                    <Log />
+        
+        <div className="main">
+            <div className="card">
+                <div className="card-body">
+                    <Log signin={true} signup={false} />                   
                 </div>
-            </div>
+            </div>    
         </div>
     );
 };
