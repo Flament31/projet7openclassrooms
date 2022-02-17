@@ -12,7 +12,7 @@ const SignInForm = () => {
 
     axios({
       method: "POST",
-      url: "http://localhost:8000/api/auth/signup",
+      url: "http://localhost:8000/api/auth/login",
       withCredentials: true,
       data: {
         email,
