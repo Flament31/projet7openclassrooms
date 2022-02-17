@@ -7,11 +7,11 @@ const fs = require('fs');
 const helmet = require('helmet');
 const session = require('cookie-session');
 const nocache = require('nocache');
-const sequelize = require('sequelize');
 require('dotenv').config();
 require('sequelize');
 
 const userRoutes = require('./routes/user');
+const { sequelize } = require('./models/index');
 
 const app = express();
 
@@ -43,5 +43,15 @@ app.use(helmet());
 app.use(nocache());
 
 app.use('/api/auth', userRoutes);
+
+const dbTest = async function () {
+    try {
+        await sequelize.authenticate();
+        console.log('Connection has been established successfully.');
+    } catch (error) {
+        console.error('Unable to connect to the database:', error);
+    }
+};
+dbTest();
 
 module.exports = app;

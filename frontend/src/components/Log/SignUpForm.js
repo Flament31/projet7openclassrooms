@@ -13,6 +13,7 @@ const SignUpForm = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     const nameError = document.querySelector(".name.error");
+    const firstnameError = document.querySelector(".firstname.errors");
     const emailError = document.querySelector(".email.error");
     const passwordError = document.querySelector(".password.error");
     const passwordConfirmError = document.querySelector(
@@ -34,12 +35,15 @@ const SignUpForm = () => {
         data: {
           email,
           password,
+          firstname,
+          name
         },
       })
         .then((res) => {
           console.log(res);
           if (res.data.errors) {
             nameError.innerHTML = res.data.errors.name;
+            firstnameError.innerHTML = res.data.errors.firstname;
             emailError.innerHTML = res.data.errors.email;
             passwordError.innerHTML = res.data.errors.password;
           } else {
@@ -54,11 +58,12 @@ const SignUpForm = () => {
     <>
       {formSubmit ? (
         <>
-          <SignInForm />
-          <span></span>
-          <h4 className="success">
-            Enregistrement réussi, veuillez-vous connecter
-          </h4>
+          <div>
+            <h3 className="h3">
+              Enregistrement réussi, veuillez-vous connecter
+            </h3>
+            <SignInForm />
+          </div>
         </>
       ) : (
 
@@ -79,6 +84,7 @@ const SignUpForm = () => {
                 autoComplete="off"
               />
             </div>
+            <div className="name error"></div>
             <div className='form-group'>
               <label htmlFor="prenom">Prénom</label>
               <br />
@@ -91,6 +97,7 @@ const SignUpForm = () => {
                 value={firstname}
               />
             </div>
+            <div className="firstname error"></div>
             <div className="form-group">
               <label htmlFor="email">email</label>
               <br />
@@ -116,6 +123,7 @@ const SignUpForm = () => {
                 value={password}
               />
             </div>
+            <div className="password error"></div>
             <div className="form-group">
               <label htmlFor="password-conf">Confirmer mot de passe</label>
               <br />
@@ -127,6 +135,7 @@ const SignUpForm = () => {
                 value={controlPassword}
               />
             </div>
+            <div className="password-confirm error"></div>
             <div>
               <input
                 className="btn btn-success"

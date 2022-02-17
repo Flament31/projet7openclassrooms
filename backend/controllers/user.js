@@ -1,49 +1,34 @@
 const bcrypt = require('bcrypt');
-const models = require('../models');
+const db = require('../models');
+const token = require("../middleware/token");
 
-
-const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!.@#$%^&*,])(?=.{8,})/;
-
-exports.signup = (req, res, next) => {
-    if (
-        req.body.email == "" ||
-        req.body.name == "" ||
-        req.body.firstname == "" ||
-        req.body.password == ""
-    ) {
-        return res
-            .status(400)
-            .json({ error: "Merci de remplir tous les champs !" });
-    }
-    if (!EMAIL_REGEX.test(req.body.email)) {
-        return res.status(400).json({ error: "Email incorrect !" });
-    }
-    if (!PASSWORD_REGEX.test(req.body.password)) {
-        return res.status(401).json({
-            error:
-                "Minimum: 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère (!.@#$%^&*)",
+exports.signup = async (req, res) => {
+    try {
+        const user = await db.User.findOne({
+            where: { email: req.body.email },
         });
-    } else {
-        bcrypt
-            .hash(req.body.password, 10)
-            .then((hash) => {
-                const user = models.User.create({
-                    email: req.body.email,
-                    name: req.body.name,
-                    firstname: req.body.firstname,
-                    password: hash,
-                })
-                    .then((user) => {
-                        res.status(201).json({
-                            userId: user,
-                        });
-                    })
-                    .then(() => res.status(201).json({ message: "Utilisateur créé !" }))
-                    .catch((error) => res.status(400).json({ error: error }));
-            })
-            .catch((error) => res.status(500).json({ error: error }));
+        if (user !== null) {
+            if (user.email === req.body.email) {
+                return res.status(400).json({ error: "Cette email est déjà utilisé" });
+            }
+        } else {
+            const hash = await bcrypt.hash(req.body.password, 10);
+            const newUser = await db.User.create({
+                email: req.body.email,
+                name: req.body.name,
+                firstname: req.body.firstname,
+                password: hash,
+            });
+
+            const tokenObject = await token.issueJWT(newUser);
+            res.status(201).send({
+                user: newUser,
+                token: tokenObject.token,
+                expires: tokenObject.expiresIn,
+                message: `Votre compte est bien créé ${newUser.email} !`,
+            });
+        }
+    } catch (error) {
+        return res.status(400).send({ error: "email déjà utilisé" });
     }
-
-
 };
