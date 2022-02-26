@@ -49,8 +49,9 @@ const SignInForm = () => {
             onChange={(e) => setEmail(e.target.value)}
             value={email}
           />
-          <div className="email error"></div>
         </div>
+
+        <div className="email error"></div>
 
         <div className="form-group">
           <label htmlFor="password">Mot de passe</label>
@@ -62,9 +63,8 @@ const SignInForm = () => {
             onChange={(e) => setPassword(e.target.value)}
             value={password}
           />
-          <div className="password error"></div>
         </div>
-
+        <div className="password error"></div>
         <div>
           <input type="submit" value="Se connecter" className="btn btn-success" />
         </div>
