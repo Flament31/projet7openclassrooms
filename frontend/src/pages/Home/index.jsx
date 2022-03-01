@@ -1,7 +1,7 @@
 import Log from "../../components/Log";
 import { createContext } from 'react';
 import React, { useContext } from "react";
-import Post from "../../components/Post/NewPostForm";
+import Post from "../../components/Post";
 
 const Home = () => {
 

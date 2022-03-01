@@ -6,6 +6,7 @@ import Profils from "./pages/Profils";
 import { hasAuthenticated } from "./services/AuthApi";
 import Auth from "./contexts/auth";
 import Header from './components/Header';
+import NewPost from './pages/NewPost';
 
 
 const App = () => {
@@ -18,6 +19,7 @@ const App = () => {
         <Routes>
           <Route exact path="/" element={<Home />} />,
           <Route exact path="/profils" element={<Profils />} />
+          <Route exact path="/newPost" element={<NewPost />} />
         </Routes>
       </Router>
     </Auth.Provider>
