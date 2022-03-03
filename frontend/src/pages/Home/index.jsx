@@ -1,11 +1,10 @@
 import Log from "../../components/Log";
-import { createContext } from 'react';
+import { UidContext } from "../../contexts/auth";
 import React, { useContext } from "react";
 import Post from "../../components/Post";
 
 const Home = () => {
 
-    const UidContext = createContext();
     const uid = useContext(UidContext);
 
     return (

@@ -1,7 +1,3 @@
-import React from 'react';
+import { createContext } from 'react';
 
-export default React.createContext({
-    isAuthenticated: false,
-    setIsAuthenticated: value => {
-    }
-});
+export const UidContext = createContext();
