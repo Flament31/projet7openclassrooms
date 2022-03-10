@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom'
+import Logout from '../Log/logout'
+
 
 
 function Header() {
+
 
     return (
         <div id="header" className="bg-dark">
@@ -17,14 +20,12 @@ function Header() {
                         <div id="navbarContent" className="collapse navbar-collapse">
                             <ul className="navbar-nav">
                                 <li className="nav-item active">
-                                    <a className="nav-link" href="index.html">Portail</a>
+                                    <Link className="nav-link" to="/">Portail</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" to="/profils">Profils</Link>
                                 </li>
-                                <li>
-                                    <button>Deconnexion</button>
-                                </li>
+                                <Logout />
                             </ul>
                         </div>
                     </nav>

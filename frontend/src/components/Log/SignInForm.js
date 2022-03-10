@@ -1,9 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { CONNECT } from "../../utils/reducers";
 
 const SignInForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  let history = useNavigate();
+  const dispatch = useDispatch();
+  const auth = useSelector((state) => state);
+  useEffect(() => {
+    if (auth.userId != null) history.push("/posts");
+  });
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -13,7 +22,6 @@ const SignInForm = () => {
     axios({
       method: "POST",
       url: "http://localhost:8000/api/auth/login",
-      withCredentials: true,
       data: {
         email,
         password,
@@ -22,12 +30,19 @@ const SignInForm = () => {
 
 
       .then((res) => {
-        console.log(res);
+
         if (res.data.errors) {
           emailError.innerHTML = res.data.errors.email;
           passwordError.innerHTML = res.data.errors.password;
         } else {
-          window.location = "/";
+          dispatch({
+            type: CONNECT,
+            payload: {
+              token: res.token,
+              userId: res.userId,
+            },
+          });
+          window.location = "/Post";
         }
       })
       .catch((err) => {

@@ -1,28 +1,53 @@
 import React from 'react';
-import { useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { useSelector } from "react-redux";
 import Home from "./pages/Home";
 import Profils from "./pages/Profils";
-import { UidContext } from "./contexts/auth";
+
 import Header from './components/Header';
 import NewPost from './pages/NewPost';
 
+import Post from "./pages/Post";
 
-const App = () => {
 
-  const uid = useState(null);
+
+
+const App = ({ component: Component, ...rest }) => {
+
+  const auth = useSelector(state => state);
 
   return (
-    <UidContext.Provider value={uid}>
-      <Router>
-        <Header />
-        <Routes>
-          <Route exact path="/" element={<Home />} />,
-          <Route exact path="/profils" element={<Profils />} />
-          <Route exact path="/newPost" element={<NewPost />} />
-        </Routes>
-      </Router>
-    </UidContext.Provider>
+    <Router>
+      <Header />
+      <Routes>
+        <Route exact path="/" element={<Home />} />,
+
+        <Route {...rest}
+          render={(props) =>
+            auth === true ? (
+              <Component {...props} />
+            ) : (
+              <Navigate to="/" />
+            )
+          } exact auth={auth.userId != null} path="/profils" element={<Profils />} />,
+        <Route {...rest}
+          render={(props) =>
+            auth === true ? (
+              <Component {...props} />
+            ) : (
+              <Navigate to="/" />
+            )
+          } exact auth={auth.userId != null} path="/Post" element={<Post />} />,
+        <Route {...rest}
+          render={(props) =>
+            auth === true ? (
+              <Component {...props} />
+            ) : (
+              <Navigate to="/" />
+            )
+          } exact auth={auth.userId != null} path="/newPost" element={<NewPost />} />
+      </Routes>
+    </Router>
   );
 };
 
