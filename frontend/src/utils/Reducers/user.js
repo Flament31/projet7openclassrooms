@@ -1,4 +1,4 @@
-const initialState = { token: null, userId: null, isAdmin: false };
+const initialState = { token: null, userId: null };
 export const CONNECT = "CONNECT";
 export const DISCONNECT = "DISCONNECT";
 

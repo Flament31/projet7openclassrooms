@@ -36,7 +36,7 @@ exports.signup = async (req, res) => {
     }
 };
 
-exports.login = (req, res, next) => {
+exports.logins = (req, res, next) => {
     let email = req.body.email;
     let password = req.body.password;
 
@@ -83,3 +83,36 @@ exports.login = (req, res, next) => {
         })
 };
 
+exports.login = (req, res, next) => {
+    if (!req.body.password || !req.body.email) {
+        return res.status(400).json({ error: "bad request" });
+    }
+    const email = req.body.email;
+    User.findOne({ where: { email: email } })
+        .then((user) => {
+            if (!user) {
+                return res.status(404).json({ error: "identifiants incorrect !" });
+            }
+            bcrypt
+                .compare(req.body.password, user.password)
+                .then((valid) => {
+                    console.log(valid);
+                    if (!valid) {
+                        return res.status(404).json({ error: "identifiants incorrect !" });
+                    }
+                    res.status(200).json({
+                        userId: user.id,
+                        token: jwt.sign(
+                            { userId: user.id },
+                            'RANDOM_TOKEN_SECRET',
+                            {
+                                expiresIn: "24h",
+                            },
+
+                        ),
+                    });
+                })
+                .catch((error) => res.status(500).json({ error }));
+        })
+        .catch((error) => res.status(500).json({ error }));
+};

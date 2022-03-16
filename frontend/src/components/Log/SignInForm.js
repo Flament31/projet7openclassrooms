@@ -1,90 +1,110 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { CONNECT } from "../../utils/reducers";
+import React, { useState, useRef } from "react";
+import { useNavigate } from 'react-router-dom';
+import AuthService from "../../utils/Services/auth.service";
+import Form from "react-validation/build/form";
+import Input from "react-validation/build/input";
+import CheckButton from "react-validation/build/button";
 
 const SignInForm = () => {
+  const navigate = useNavigate();
+  const form = useRef();
+  const checkBtn = useRef();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  let history = useNavigate();
-  const dispatch = useDispatch();
-  const auth = useSelector((state) => state);
-  useEffect(() => {
-    if (auth.userId != null) history.push("/posts");
-  });
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const onChangeEmail = (e) => {
+    const email = e.target.value;
+    setEmail(email);
+  };
+
+  const onChangePassword = (e) => {
+    const password = e.target.value;
+    setPassword(password);
+  };
 
   const handleLogin = (e) => {
     e.preventDefault();
-    const emailError = document.querySelector(".email.error");
-    const passwordError = document.querySelector(".password.error");
 
-    axios({
-      method: "POST",
-      url: "http://localhost:8000/api/auth/login",
-      data: {
-        email,
-        password,
-      },
-    })
+    setMessage("");
+    setLoading(true);
 
+    form.current.validateAll();
 
-      .then((res) => {
+    if (checkBtn.current.context._errors.length === 0) {
+      AuthService.login(email, password).then(
+        () => {
+          navigate('/Post')
+          window.location.reload();
+        },
+        (error) => {
+          const resMessage =
+            (error.res &&
+              error.res.data &&
+              error.res.data.message) ||
+            error.message ||
+            error.toString();
 
-        if (res.data.errors) {
-          emailError.innerHTML = res.data.errors.email;
-          passwordError.innerHTML = res.data.errors.password;
-        } else {
-          dispatch({
-            type: CONNECT,
-            payload: {
-              token: res.token,
-              userId: res.userId,
-            },
-          });
-          window.location = "/Post";
+          setLoading(false);
+          setMessage(resMessage);
         }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      );
+    } else {
+      setLoading(false);
+    }
   };
 
   return (
-    <form action="" onSubmit={handleLogin} className="contact-form">
+    <Form onSubmit={handleLogin} className="contact-form" ref={form}>
       <h2>Connexion</h2>
       <div className="col">
         <div className="form-group">
           <label htmlFor="email">Email</label>
           <br />
-          <input
+          <Input
             type="text"
             name="email"
             id="email"
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={onChangeEmail}
             value={email}
           />
         </div>
 
-        <div className="email error"></div>
+
 
         <div className="form-group">
           <label htmlFor="password">Mot de passe</label>
           <br />
-          <input
+          <Input
             type="password"
             name="password"
             id="password"
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={onChangePassword}
             value={password}
           />
         </div>
-        <div className="password error"></div>
-        <div>
-          <input type="submit" value="Se connecter" className="btn btn-success" />
+
+        <div className="form-group">
+          <button className="btn btn-primary btn-block" disabled={loading}>
+            {loading && (
+              <span className="spinner-border spinner-border-sm"></span>
+            )}
+            <span>Connexion</span>
+          </button>
         </div>
+
+        {message && (
+          <div className="form-group">
+            <div className="alert alert-danger" role="alert">
+              {message}
+            </div>
+          </div>
+        )}
+        <CheckButton ref={checkBtn} />
       </div>
-    </form>
+    </Form>
   );
 };
 
