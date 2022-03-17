@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Link } from 'react-router-dom'
+import { NotConnected } from "../../components/NotConnected";
 import { useEffect, useState } from 'react';
 import AuthService from '../../utils/Services/auth.service';
 import React from 'react';
@@ -87,10 +87,7 @@ const NewPost = () => {
                 )}
             </>
         ) : (
-            <div>
-                <p><span>Veulliez vous connecter pour acceder à cette page !</span></p>
-                <button><Link className="nav-link" to="/">Connexion</Link></button>
-            </div>
+            <NotConnected />
         )
     );
 }
