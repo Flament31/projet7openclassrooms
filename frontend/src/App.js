@@ -4,8 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from "./pages/Home";
 import Profils from "./pages/Profils";
 import Header from './components/Header';
-import NewPost from './pages/NewPost';
-import Post from "./pages/Post";
+import Connexion from './pages/Connexion';
 
 
 const App = () => {
@@ -15,11 +14,10 @@ const App = () => {
       <Header />
       <Routes>
 
-        <Route exact path="/" element={<Home />} />,
+        <Route exact path="/" element={<Connexion />} />,
 
-        <Route exact path="/profils" element={<Profils />} />,
-        <Route exact path="/Post" element={<Post />} />,
-        <Route exact path="/newPost" element={<NewPost />} />
+        <Route exact path="/Profils" element={<Profils />} />,
+        <Route exact path="/Home" element={<Home />} />,
 
       </Routes>
     </Router>

@@ -1,6 +1,6 @@
 import Log from "../../components/Log";
 
-const Home = () => {
+const Connexion = () => {
 
 
     return (
@@ -15,4 +15,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default Connexion;

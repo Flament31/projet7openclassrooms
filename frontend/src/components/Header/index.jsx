@@ -20,10 +20,10 @@ function Header() {
                         <div id="navbarContent" className="collapse navbar-collapse">
                             <ul className="navbar-nav">
                                 <li className="nav-item active">
-                                    <Link className="nav-link" to="/">Portail</Link>
+                                    <Link className="nav-link" to="/Home">Portail</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="/profils">Profils</Link>
+                                    <Link className="nav-link" to="/Profils">Profils</Link>
                                 </li>
                                 <Logout />
                             </ul>
