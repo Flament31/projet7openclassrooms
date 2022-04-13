@@ -11,6 +11,7 @@ require('dotenv').config();
 require('sequelize');
 
 const userRoutes = require('./routes/user');
+const postRoutes = require('./routes/post');
 const { sequelize } = require('./models/index');
 
 const app = express();
@@ -43,6 +44,7 @@ app.use(helmet());
 app.use(nocache());
 
 app.use('/api/auth', userRoutes);
+app.use('/api/post', postRoutes);
 
 const dbTest = async function () {
     try {

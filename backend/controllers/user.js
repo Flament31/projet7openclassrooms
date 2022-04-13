@@ -36,52 +36,6 @@ exports.signup = async (req, res) => {
     }
 };
 
-exports.logins = (req, res, next) => {
-    let email = req.body.email;
-    let password = req.body.password;
-
-    if (email == null || password == null) {
-        res.status(400).json({
-            message: 'Il manque un paramètre ! '
-        });
-    }
-    User.findOne({ where: { email: email } })
-        .then(user => {
-            if (user) {
-                bcrypt.compare(password, user.password, (errBcrypt, resBcrypt) => {
-                    if (resBcrypt) {
-                        res.status(200).json({
-                            userId: user.id,
-                            token: jwt.sign(
-                                { userId: user.id },
-                                'RANDOM_TOKEN_SECRET',
-                                {
-                                    expiresIn: "24h",
-                                },
-                            ),
-                        })
-                    } else {
-                        res.status(403).json({
-                            error: 'invalid password ',
-                            password: password,
-                            user: user,
-                            errBcrypt: errBcrypt,
-                            resBcrypt: resBcrypt
-                        });
-                    };
-                })
-            } else {
-                res.status(404).json({
-                    'erreur': 'Cet utilisateur n\'existe pas'
-                })
-            }
-        })
-        .catch(err => {
-            res.status(500).json({
-                err
-            })
-        })
-};
 
 exports.login = (req, res, next) => {
     if (!req.body.password || !req.body.email) {
@@ -115,4 +69,22 @@ exports.login = (req, res, next) => {
                 .catch((error) => res.status(500).json({ error }));
         })
         .catch((error) => res.status(500).json({ error }));
+};
+
+exports.getOneUser = (req, res, next) => {
+    const token = req.headers.authorization.split(" ")[1];
+    const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
+    const userId = decodedToken.userId;
+
+    db.User.findOne({
+        where: {
+            id: userId,
+        },
+    })
+        .then((user) => res.status(200).json({
+            user
+        }))
+        .catch((err) => res.status(401).json({
+            err
+        }));
 };

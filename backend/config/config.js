@@ -1,7 +1,7 @@
 require("dotenv").config();
 module.exports = {
     authentication: {
-        jwtSecret: process.env.JWT_SECRET || 'secret',
+        jwtSecret: 'RANDOM_TOKEN_SECRET' || 'secret',
     },
 
 };
