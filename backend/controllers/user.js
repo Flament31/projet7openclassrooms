@@ -55,9 +55,9 @@ exports.login = (req, res, next) => {
                         return res.status(404).json({ error: "identifiants incorrect !" });
                     }
                     res.status(200).json({
-                        userId: user.id,
+                        idUser: user.id,
                         token: jwt.sign(
-                            { userId: user.id },
+                            { idUser: user.id },
                             'RANDOM_TOKEN_SECRET',
                             {
                                 expiresIn: "24h",
@@ -69,22 +69,4 @@ exports.login = (req, res, next) => {
                 .catch((error) => res.status(500).json({ error }));
         })
         .catch((error) => res.status(500).json({ error }));
-};
-
-exports.getOneUser = (req, res, next) => {
-    const token = req.headers.authorization.split(" ")[1];
-    const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
-    const userId = decodedToken.userId;
-
-    db.User.findOne({
-        where: {
-            id: userId,
-        },
-    })
-        .then((user) => res.status(200).json({
-            user
-        }))
-        .catch((err) => res.status(401).json({
-            err
-        }));
 };

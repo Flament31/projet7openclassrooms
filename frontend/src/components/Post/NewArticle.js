@@ -3,35 +3,40 @@ import axios from 'axios';
 
 const NewArticle = () => {
 
-    const signedToken = localStorage.getItem('secret');
-    const id = JSON.parse(localStorage.getItem('user')).idUser;
+    const idUser = JSON.parse(localStorage.getItem('idUser')).idUser;
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
     const [imageUrl, setImageUrl] = useState(null);
 
+    const onChangeTitle = (e) => {
+        const title = e.target.value;
+        setTitle(title);
+    };
+
+    const onChangeText = (e) => {
+        const text = e.target.value;
+        setText(text);
+    };
+
+    const onChangeImageUrl = (e) => {
+        const imageUrl = e.target.files[0];
+        setImageUrl(imageUrl);
+    };
+
     const handlePost = (e) => {
         e.preventDefault();
 
-        const formData = new FormData();
-        formData.append('text', text);
-        formData.append('imageUrl', imageUrl);
-        formData.append('idUser', id);
-        formData.append('title', title);
-
-
-        const config = {
-            headers: {
-                Authorization: `Bearer ${signedToken}`,
-                'Content-Type': 'multipart/form-data',
-            },
-        };
         axios
-            .post(`http://localhost:8000/api/post`, formData, {
-                config,
+            .post(`http://localhost:8000/api/post/`, {
+                data: {
+                    title,
+                    text,
+                    imageUrl,
+                    idUser,
+                },
             })
 
             .then((res) => {
-                window.location.reload(false);
                 console.log(res);
             })
             .catch((error) => {
@@ -55,7 +60,7 @@ const NewArticle = () => {
                         type="text"
                         id="title"
                         name="title"
-                        onChange={(e) => setTitle(e.target.value)}
+                        onChange={onChangeTitle}
                         placeholder="Titre *"
                         value={title}
                         autoComplete="off"
@@ -69,7 +74,7 @@ const NewArticle = () => {
                         id="file"
                         name="imageUrl"
                         accept="image/png, image/jpeg"
-                        onChange={(e) => setImageUrl(e.target.files[0])}
+                        onChange={onChangeImageUrl}
                     />
                 </div>
                 <div className='form-group'>
@@ -78,7 +83,7 @@ const NewArticle = () => {
                     <textarea
                         id="text"
                         name="text"
-                        onChange={(e) => setText(e.target.value)}
+                        onChange={onChangeText}
                         value={text}
                     />
                 </div>

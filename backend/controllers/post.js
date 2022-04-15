@@ -2,6 +2,7 @@ const db = require('../models/index');
 const Post = db.post;
 
 exports.createPost = (req, res, next) => {
+
   Post.create({
     title: req.body.title,
     text: req.body.text,
