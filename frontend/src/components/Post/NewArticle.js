@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const NewArticle = () => {
 
-    const idUser = JSON.parse(localStorage.getItem('idUser')).idUser;
+    const idUser = JSON.parse(localStorage.getItem('user')).idUser;
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
     const [imageUrl, setImageUrl] = useState(null);
@@ -28,12 +28,10 @@ const NewArticle = () => {
 
         axios
             .post(`http://localhost:8000/api/post/`, {
-                data: {
-                    title,
-                    text,
-                    imageUrl,
-                    idUser,
-                },
+                title,
+                text,
+                imageUrl,
+                idUser,
             })
 
             .then((res) => {
