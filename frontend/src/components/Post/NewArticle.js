@@ -8,6 +8,9 @@ const NewArticle = () => {
     const [text, setText] = useState('');
     const [imageUrl, setImageUrl] = useState(null);
 
+
+
+
     const onChangeTitle = (e) => {
         const title = e.target.value;
         setTitle(title);

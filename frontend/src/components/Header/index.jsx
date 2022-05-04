@@ -1,7 +1,5 @@
-import { Link } from 'react-router-dom'
-import Logout from '../Log/logout'
-
-
+import { Link } from 'react-router-dom';
+import Logout from '../Log/logout';
 
 function Header() {
 

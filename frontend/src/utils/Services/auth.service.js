@@ -5,6 +5,7 @@ const login = (email, password) => {
         .post("http://localhost:8000/api/auth/login", {
             email,
             password,
+            headers: { "Content-Type": "application/json", },
         })
         .then((res) => {
             if (res.data.token) {
@@ -18,7 +19,7 @@ const login = (email, password) => {
 };
 
 const logout = () => {
-    localStorage.removeItem("user");
+    localStorage.clear();
 };
 
 const getCurrentUser = () => {
