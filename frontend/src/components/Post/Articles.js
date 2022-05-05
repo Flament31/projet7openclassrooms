@@ -1,7 +1,9 @@
+import Post from "./Post";
+
 const Articles = () => {
     return (
         <div>
-            <p>Les articles s'affiche ici</p>
+            <Post />
         </div>
     )
 }
