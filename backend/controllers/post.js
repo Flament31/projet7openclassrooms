@@ -3,9 +3,6 @@ const Post = db.Post;
 const User = db.User;
 
 exports.createPost = (req, res, next) => {
-
-
-
   const idUser = req.body.idUser;
   User.findOne({ where: { id: idUser } })
     .then((user) => {
@@ -28,5 +25,11 @@ exports.createPost = (req, res, next) => {
           res.status(400).json({ error });
         });
     });
+};
 
+
+exports.getAllPost = (req, res, next) => {
+  Post.findAll()
+    .then(posts => res.status(200).json(posts))
+    .catch(error => res.status(400).json({ error }));
 };

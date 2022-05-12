@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 const Post = () => {
     const [posts, setPosts] = useState([]);
-    const token = localStorage.getItem('token');
+    const token = JSON.parse(localStorage.getItem('token'));
 
     useEffect(() => {
         axios
