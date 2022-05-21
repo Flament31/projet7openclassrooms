@@ -36,16 +36,13 @@ const NewArticle = () => {
                 imageUrl,
                 idUser,
             })
-
             .then((res) => {
                 console.log(res);
             })
             .catch((error) => {
                 console.error(error);
             });
-
     };
-
 
     return (
 
@@ -74,7 +71,7 @@ const NewArticle = () => {
                         type="file"
                         id="file"
                         name="imageUrl"
-                        accept="image/png, image/jpeg"
+                        accept="image/png, image/jpeg, image/jpg"
                         onChange={onChangeImageUrl}
                     />
                 </div>
