@@ -4,12 +4,10 @@ import axios from 'axios';
 const NewArticle = () => {
 
     const idUser = JSON.parse(localStorage.getItem('user')).idUser;
+    const token = JSON.parse(localStorage.getItem('token'));
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
     const [imageUrl, setImageUrl] = useState(null);
-
-
-
 
     const onChangeTitle = (e) => {
         const title = e.target.value;
@@ -29,12 +27,22 @@ const NewArticle = () => {
     const handlePost = (e) => {
         e.preventDefault();
 
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('text', text);
+        formData.append('imageUrl', imageUrl);
+        formData.append('idUser', idUser);
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data',
+            },
+        };
+
         axios
-            .post(`http://localhost:8000/api/post/`, {
-                title,
-                text,
-                imageUrl,
-                idUser,
+            .post(`http://localhost:8000/api/post/`, formData, {
+                config,
             })
             .then((res) => {
                 console.log(res);
