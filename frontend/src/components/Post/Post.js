@@ -1,38 +1,31 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 import ArticlesCard from './ArticlesCard';
 
 const Post = () => {
-    const [posts, setPosts] = useState([]);
-    const token = JSON.parse(localStorage.getItem('token'));
 
-    useEffect(() => {
+    const {
+        // les données renvoyées par le serveur
+        // null si la requête n'est pas encore résolue
+        data,
+        // l'erreur renvoyé par le serveur
+        // ou null si pas d'erreur
+        error,
+    } = useQuery('posts', async () => {
+        const response = await fetch('http://localhost:8000/api/post')
+        const data = await response.json()
+        return data
+    })
 
-        let cancel = true;
-
-        axios
-            .get(`http://localhost:8000/api/post/`, {
-                headers: { Authorization: `Bearer ${token}` },
-            })
-            .then((res) => {
-                if (cancel) {
-                    setPosts(res.data);
-                }
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-        return () => {
-            cancel = false;
-        }
-    }, [token]);
+    if (error) {
+        return <span>Il y a un problème</span>
+    }
 
     return (
         <div>
             <ul>
                 <li>
                     <div>
-                        {posts?.map((post, index) => (
+                        {data?.map((post, index) => (
                             <ArticlesCard
                                 key={`${post.id}-${index}`}
                                 title={post.title}
