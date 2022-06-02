@@ -56,6 +56,9 @@ exports.login = (req, res, next) => {
                     }
                     res.status(200).json({
                         idUser: user.id,
+                        name: user.name,
+                        firstname: user.firstname,
+                        email: user.email,
                         token: jwt.sign(
                             { idUser: user.id },
                             'RANDOM_TOKEN_SECRET',
@@ -71,9 +74,28 @@ exports.login = (req, res, next) => {
         .catch((error) => res.status(500).json({ error }));
 };
 
+exports.getOneUser = (req, res, next) => {
+    User.findOne({ idUser: req.params.idUser })
+        .then(sauce => res.status(200).json(sauce))
+        .catch(error => res.status(404).json({ error }));
+};
 
-exports.getOneUser = (req, res) => {
-    User.findByPk(req.params.id)
-        .then((user) => res.status(200).json(user))
-        .catch((error) => res.status(404).json({ error }));
+
+module.exports.updateUser = (req, res) => {
+    const hash = bcrypt.hash(req.body.password, 10);
+    User.update(
+        {
+            name: req.body.name,
+            firstname: req.body.firstname,
+            email: req.body.email,
+            password: hash
+        },
+        {
+            where: {
+                idUser: req.params.id,
+            },
+        }
+    )
+        .then(() => res.status(200).json({ message: 'Utilisateur modifié !' }))
+        .catch((error) => res.status(400).json({ error }));
 };
