@@ -7,10 +7,10 @@ function Header() {
     return (
         <div id="header" className="bg-dark">
             <div className="container">
-                <div className="row h1">
+                <div className="col h1">
                     <h1 className="text-white">Titre</h1>
                 </div>
-                <div className="row">
+                <div className="col">
                     <nav className="col navbar navbar-expand-md navbar-dark">
                         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent">
                             <span className="navbar-toggler-icon"></span>

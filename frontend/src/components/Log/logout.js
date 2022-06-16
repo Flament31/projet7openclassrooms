@@ -25,6 +25,7 @@ const Logout = () => {
     const logOut = () => {
         AuthService.logout();
         setCurrentUser(undefined);
+        localStorage.clear();
         window.location.reload();
     };
 

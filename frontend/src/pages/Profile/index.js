@@ -12,7 +12,7 @@ function Profile() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [controlPassword, setControlPassword] = useState("");
-    const [id, setId] = useState("");
+    const [idUser, setId] = useState("");
 
     useEffect(() => {
         const user = AuthService.getCurrentUser();
@@ -21,12 +21,9 @@ function Profile() {
             setName(user.name);
             setFirstname(user.firstname);
             setEmail(user.email);
-            setPassword(user.password);
-            setControlPassword(user.password);
             setId(user.idUser);
         }
     }, []);
-    console.log(currentUser);
 
     const handleModify = async (e) => {
         e.preventDefault();
@@ -44,12 +41,13 @@ function Profile() {
         else {
             await axios({
                 method: "PUT",
-                url: `http://localhost:8000/api/auth/user/:${id}`,
+                url: `http://localhost:8000/api/auth/user/:${idUser}`,
                 data: {
                     email,
                     password,
                     firstname,
-                    name
+                    name,
+                    idUser
                 },
                 headers: { 'Content-Type': 'application/json' },
             })
@@ -58,11 +56,36 @@ function Profile() {
                     if (res.data.errors) {
                         passwordError.innerHTML = res.data.errors.password;
                     } else {
-                        console.log(res);
+                        if (window.confirm('Votre profile a bien été modifié !')) {
+                            localStorage.clear();
+                            AuthService.logout();
+                            setCurrentUser(undefined);
+                            window.location.reload();
+                        }
                     }
                 })
                 .catch((err) => console.log(err));
         }
+    }
+
+    const handleDelete = () => {
+        axios({
+            method: "DELETE",
+            url: `http://localhost:8000/api/auth/user/:${idUser}`,
+            data: {
+                idUser
+            },
+            headers: { 'Content-Type': 'application/json' },
+        })
+            .then(() => {
+                localStorage.clear();
+                AuthService.logout();
+                setCurrentUser(undefined);
+                window.location.reload();
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     }
 
     return (
@@ -145,9 +168,14 @@ function Profile() {
                         </div>
                     </form>
                     <div>
-                        <button>
-                            Supprimer le compte
-                        </button>
+                        <div>
+                            <input
+                                className="btn btn-danger"
+                                type="button"
+                                value="Supprimer votre profile"
+                                onClick={handleDelete}
+                            />
+                        </div>
                     </div>
                 </div>
             </section>) : (

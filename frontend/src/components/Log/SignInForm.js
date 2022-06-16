@@ -37,6 +37,7 @@ const SignInForm = () => {
       AuthService.login(email, password).then(
         () => {
           navigate('/Home')
+          window.location.reload();
           console.log(localStorage);
         },
         (error) => {

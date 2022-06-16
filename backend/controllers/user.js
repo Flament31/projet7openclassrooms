@@ -74,46 +74,42 @@ exports.login = (req, res, next) => {
         .catch((error) => res.status(500).json({ error }));
 };
 
-exports.updateUser = (req, res) => {
-
-    const idUser = req.body.idUser;
-
-    bcrypt.hash(req.body.password, 10)
-        .then(hash => {
-            const updateUser = User.update(
-                {
-                    name: req.body.name,
-                    firstname: req.body.firstname,
-                    email: req.body.email,
-                    password: hash,
+exports.updateUser = async (req, res) => {
+    try {
+        const hash = await bcrypt.hash(req.body.password, 10);
+        const userUpdate = await User.update(
+            {
+                name: req.body.name,
+                firstname: req.body.firstname,
+                email: req.body.email,
+                password: hash,
+            },
+            {
+                where: {
+                    id: req.body.idUser,
                 },
-                {
-                    where: {
-                        idUser: idUser,
-                    },
-                }
-            );
-            console.log(res);
-            updateUser.save()
-                .then(() => {
-                    const tokenObject = token.issueJWT(updateUser);
-                    res.status(200).send({
-                        user: UpdateUser,
-                        token: tokenObject.token,
-                        expires: tokenObject.expiresIn,
-                        message: `Votre compte à bien été modifié! ${updateUser.email} !`,
-                    })
-                })
-                .catch(error => {
-                    res.status(400).json({
-                        error
-                    })
-                });
-        })
-        .catch(error => {
-            res.status(500).json({
-                error
-            })
-        });
+            }
+        );
 
+        const tokenObject = await token.issueJWT(userUpdate);
+        res.status(201).send({
+            user: userUpdate,
+            token: tokenObject.token,
+            expires: tokenObject.expiresIn,
+            message: `Votre compte a bien été modifié ! ${userUpdate.email} !`,
+        });
+    } catch (error) {
+        return res.status(400).send({ error });
+    }
+};
+
+
+exports.deleteOneUser = (req, res) => {
+    User.destroy({
+        where: {
+            id: req.body.idUser,
+        },
+    })
+        .then(() => res.status(200).json({ message: 'Utilisateur supprimé ' }))
+        .catch((error) => res.status(400).json({ error }));
 };
