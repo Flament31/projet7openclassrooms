@@ -6,5 +6,7 @@ const multer = require('../middleware/multer');
 
 router.post('/', multer, postCtrl.createPost);
 router.get('/', postCtrl.getAllPost);
+router.get('/:id', postCtrl.findOnePost);
+router.delete('/:id', postCtrl.deleteOnePost);
 
 module.exports = router;

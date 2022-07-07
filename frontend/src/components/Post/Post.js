@@ -31,6 +31,7 @@ const Post = () => {
                                 title={post.title}
                                 text={post.text}
                                 imageUrl={post.imageUrl}
+                                id={post.id}
                             />
                         ))}
                     </div>

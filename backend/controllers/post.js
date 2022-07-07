@@ -33,3 +33,33 @@ exports.getAllPost = (req, res, next) => {
     .then(posts => res.status(200).json(posts))
     .catch(error => res.status(400).json({ error }));
 };
+
+exports.findOnePost = (req, res) => {
+  const id = req.params.id;
+
+  Post.findByPk(id)
+    .then(data => {
+      if (data) {
+        res.send(data);
+      } else {
+        res.status(404).send({
+          message: `Cannot find post with id=${id}.`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error retrieving post with id=" + id
+      });
+    });
+};
+
+exports.deleteOnePost = (req, res) => {
+  Post.destroy({
+    where: {
+      id: req.body.idPost
+    },
+  })
+    .then(() => res.status(200).json({ message: 'Article supprimé ' }))
+    .catch((error) => res.status(400).json({ error }));
+};
