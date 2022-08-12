@@ -4,7 +4,6 @@ import axios from 'axios';
 const DeleteArticle = (id) => {
 
     const idPost = Object.values(id);
-    console.log(idPost);
 
     const handleDelete = () => {
         axios

@@ -20,7 +20,7 @@ const Home = () => {
             <div className="main">
                 <div className="card">
                     <div className="card-body">
-                        <Post Articles={true} NewArticle={false} />
+                        <Post Articles={true} NewArticle={false} UpdateArticle={false} />
                     </div>
                 </div>
             </div>

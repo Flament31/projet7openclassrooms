@@ -34,24 +34,10 @@ exports.getAllPost = (req, res, next) => {
     .catch(error => res.status(400).json({ error }));
 };
 
-exports.findOnePost = (req, res) => {
-  const id = req.params.id;
-
-  Post.findByPk(id)
-    .then(data => {
-      if (data) {
-        res.send(data);
-      } else {
-        res.status(404).send({
-          message: `Cannot find post with id=${id}.`
-        });
-      }
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: "Error retrieving post with id=" + id
-      });
-    });
+exports.getOnePost = (req, res, next) => {
+  Post.findOne({ id: req.params.idPost })
+    .then(post => res.status(200).json(post))
+    .catch(error => res.status(400).json({ error }));
 };
 
 exports.deleteOnePost = (req, res) => {
@@ -62,4 +48,29 @@ exports.deleteOnePost = (req, res) => {
   })
     .then(() => res.status(200).json({ message: 'Article supprimé ' }))
     .catch((error) => res.status(400).json({ error }));
+};
+
+
+exports.updateArticle = async (req, res) => {
+  try {
+    const postUpdate = await Post.update(
+      {
+        title: req.body.title,
+        text: req.body.text,
+        imageUrl: req.file
+          ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+          : null,
+      },
+      {
+        where: {
+          id: req.body.idPost,
+        },
+      }
+    );
+
+    res.status(201).send({ post: postUpdate, message: `L'article a bien été modifié !` });
+
+  } catch (error) {
+    return res.status(400).send({ error });
+  }
 };

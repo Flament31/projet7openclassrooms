@@ -25,15 +25,17 @@ const Post = () => {
             <ul>
                 <li>
                     <div>
-                        {data?.map((post, index) => (
-                            <ArticlesCard
-                                key={`${post.id}-${index}`}
-                                title={post.title}
-                                text={post.text}
-                                imageUrl={post.imageUrl}
-                                id={post.id}
-                            />
-                        ))}
+                        <div>
+                            {data?.map((post, index) => (
+                                <ArticlesCard
+                                    key={`${post.id}-${index}`}
+                                    title={post.title}
+                                    text={post.text}
+                                    imageUrl={post.imageUrl}
+                                    id={post.id}
+                                />
+                            ))}
+                        </div>
                     </div>
                 </li>
             </ul>

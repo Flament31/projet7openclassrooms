@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
 import DeleteArticle from './DeleteArticle';
+import UpdateButton from './UpdateButton';
 class ArticlesCard extends Component {
     constructor(props) {
         super(props)
@@ -17,7 +18,9 @@ class ArticlesCard extends Component {
                         <li>{title}</li>
                         <li>{imageUrl}</li>
                         <li>{text}</li>
+
                         <DeleteArticle id={id} />
+                        <UpdateButton id={id} />
                     </ul>
                 </div>
             </div>
@@ -36,7 +39,7 @@ ArticlesCard.defaultProps = {
     title: '',
     imageUrl: '',
     text: '',
-    id: '',
+    id: ''
 }
 
 export default ArticlesCard

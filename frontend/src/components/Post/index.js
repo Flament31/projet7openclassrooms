@@ -1,22 +1,27 @@
 import React, { useState } from "react";
 import NewArticle from "./NewArticle";
-import Articles from "./Articles";
+import Post from "./Post";
 
-const Log = (props) => {
+const IndexArticle = (props) => {
+
+
     const [newArticleModal, setNewArticleModal] = useState(props.newArticle);
-    const [articlesModal, setArticlesModal] = useState(props.articles);
+    const [postModal, setPostModal] = useState(props.post);
+
 
     const handleModals = (e) => {
         if (e.target.id === "newArticle") {
-            setArticlesModal(false);
+            setPostModal(false);
             setNewArticleModal(true);
-        } else if (e.target.id === "articles") {
+        } else if (e.target.id === "post") {
             setNewArticleModal(false);
-            setArticlesModal(true);
+            setPostModal(true);
         }
     };
 
+
     return (
+
         <div className="container" >
             <div className="row justify-content-center">
                 <button
@@ -28,8 +33,8 @@ const Log = (props) => {
                 </button>
                 <button
                     onClick={handleModals}
-                    id="articles"
-                    className={articlesModal ? "btn btn-success" : null}
+                    id="post"
+                    className={postModal ? "btn btn-success" : null}
                 >
                     Articles
                 </button>
@@ -39,10 +44,10 @@ const Log = (props) => {
 
             </div>
             <div className="row justify-content-center">
-                {articlesModal && <Articles />}
+                {postModal && <Post />}
             </div>
         </div>
-    );
+    )
 };
 
-export default Log;
+export default IndexArticle;
