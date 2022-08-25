@@ -8,7 +8,7 @@ function Header() {
         <div id="header" className="bg-dark">
             <div className="container">
                 <div className="col h1">
-                    <h1 className="text-white">Titre</h1>
+                    <h1 className="text-white">Groupomania</h1>
                 </div>
                 <div className="col">
                     <nav className="col navbar navbar-expand-md navbar-dark">

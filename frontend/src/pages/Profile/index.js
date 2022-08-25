@@ -91,94 +91,94 @@ function Profile() {
     return (
 
         currentUser ? (
-            <section>
-                <div>
-                    <form className="contact-form" >
-                        <div className="form-group">
-                            <label htmlFor="nom">Nom</label>
-                            <br />
-                            <input
-                                type="text"
-                                id="name"
-                                name="name"
-                                onChange={(e) => setName(e.target.value)}
-                                placeholder={name}
-                                value={name}
-                                autoComplete="off"
-                            />
-                        </div>
-                        <div className="name error"></div>
-                        <div className='form-group'>
-                            <label htmlFor="prenom">Prénom</label>
-                            <br />
-                            <input
-                                type="text"
-                                id="firstname"
-                                name="firstname"
-                                onChange={(e) => setFirstname(e.target.value)}
-                                placeholder={firstname}
-                                value={firstname}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="email">email</label>
-                            <br />
-                            <input
-                                type="mail"
-                                id="email"
-                                name="email"
-                                onChange={(e) => setEmail(e.target.value)}
-                                placeholder={email}
-                                value={email}
-                                autoComplete="off"
-                            />
-                        </div>
-                        <div className='form-group'>
-                            <label htmlFor="password">Mot de passe</label>
-                            <br />
-                            <input
-                                type="password"
-                                id="password"
-                                name="password"
-                                onChange={(e) => setPassword(e.target.value)}
-                                placeholder="Nouveau mot passe *"
-                                value={password}
-                            />
-                        </div>
-                        <div className="password error"></div>
-                        <div className="form-group">
-                            <label htmlFor="password-conf">Confirmer mot de passe</label>
-                            <br />
-                            <input
-                                type="password"
-                                name="password"
-                                id="password-conf"
-                                onChange={(e) => setControlPassword(e.target.value)}
-                                value={controlPassword}
-                            />
-                        </div>
-                        <div className="password-confirm error"></div>
-                        <div>
-                            <input
-                                className="btn btn-success"
-                                type="button"
-                                value="Envoyer"
-                                onClick={handleModify}
-                            />
-                        </div>
-                    </form>
+
+            <div className="card bg-dark mx-auto my-3 container border-dark rounded py-3 text-white" style={{ width: "25rem" }}>
+                <h3 className='mx-auto mb-3 h3'>Votre profile :</h3>
+                <form className="contact-form mx-auto" >
+                    <div className="form-group">
+                        <label htmlFor="nom">Nom</label>
+                        <br />
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            onChange={(e) => setName(e.target.value)}
+                            placeholder={name}
+                            value={name}
+                            autoComplete="off"
+                        />
+                    </div>
+                    <div className="name error"></div>
+                    <div className='form-group'>
+                        <label htmlFor="prenom">Prénom</label>
+                        <br />
+                        <input
+                            type="text"
+                            id="firstname"
+                            name="firstname"
+                            onChange={(e) => setFirstname(e.target.value)}
+                            placeholder={firstname}
+                            value={firstname}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="email">email</label>
+                        <br />
+                        <input
+                            type="mail"
+                            id="email"
+                            name="email"
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder={email}
+                            value={email}
+                            autoComplete="off"
+                        />
+                    </div>
+                    <div className='form-group'>
+                        <label htmlFor="password">Mot de passe</label>
+                        <br />
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="Nouveau mot passe *"
+                            value={password}
+                        />
+                    </div>
+                    <div className="password error"></div>
+                    <div className="form-group">
+                        <label htmlFor="password-conf">Confirmer mot de passe</label>
+                        <br />
+                        <input
+                            type="password"
+                            name="password"
+                            id="password-conf"
+                            onChange={(e) => setControlPassword(e.target.value)}
+                            value={controlPassword}
+                        />
+                    </div>
+                    <div className="password-confirm error"></div>
+                    <div className='ml-2'>
+                        <input
+                            className="btn btn-success"
+                            type="button"
+                            value="Envoyer"
+                            onClick={handleModify}
+                        />
+                    </div>
+                </form>
+                <div className='mx-auto pt-2'>
                     <div>
-                        <div>
-                            <input
-                                className="btn btn-danger"
-                                type="button"
-                                value="Supprimer votre profile"
-                                onClick={handleDelete}
-                            />
-                        </div>
+                        <input
+                            className="btn btn-danger"
+                            type="button"
+                            value="Supprimer votre profile"
+                            onClick={handleDelete}
+                        />
                     </div>
                 </div>
-            </section>) : (
+            </div>) : (
             <NotConnected />
         )
     );

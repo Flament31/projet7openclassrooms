@@ -56,10 +56,10 @@ const NewArticle = () => {
     return (
 
 
-        <form className="contact-form">
+        <form className="contact-form text-white mx-auto">
 
-            <h2>Créez votre publication</h2>
-            <div className="col">
+            <h2 className='h2 my-3'>Créez votre publication</h2>
+            <div className="col pl-5">
                 <div className="form-group">
                     <label htmlFor="nom">Titre</label>
                     <br />

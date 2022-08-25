@@ -59,7 +59,7 @@ const SignInForm = () => {
 
   return (
     <Form onSubmit={handleLogin} className="contact-form" ref={form}>
-      <h2>Connexion</h2>
+      <h2 className="h2 pl-5">Connexion</h2>
       <div className="col">
         <div className="form-group">
           <label htmlFor="email">Email</label>
@@ -103,7 +103,7 @@ const SignInForm = () => {
             </div>
           </div>
         )}
-        <CheckButton ref={checkBtn} />
+        <CheckButton ref={checkBtn} className="invisible" />
       </div>
     </Form>
   );

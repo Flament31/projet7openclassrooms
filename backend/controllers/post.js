@@ -34,10 +34,24 @@ exports.getAllPost = (req, res, next) => {
     .catch(error => res.status(400).json({ error }));
 };
 
-exports.getOnePost = (req, res, next) => {
-  Post.findOne({ id: req.params.idPost })
-    .then(post => res.status(200).json(post))
-    .catch(error => res.status(400).json({ error }));
+exports.getOnePost = (req, res) => {
+  const id = req.params.id;
+
+  Post.findByPk(id)
+    .then(data => {
+      if (data) {
+        res.send(data);
+      } else {
+        res.status(404).send({
+          message: `Cannot find post with id=${id}.`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error retrieving post with id=" + id
+      });
+    });
 };
 
 exports.deleteOnePost = (req, res) => {
@@ -63,7 +77,7 @@ exports.updateArticle = async (req, res) => {
       },
       {
         where: {
-          id: req.body.idPost,
+          id: req.body.id,
         },
       }
     );

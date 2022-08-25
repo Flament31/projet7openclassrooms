@@ -12,7 +12,7 @@ class ArticlesCard extends Component {
         const { title, text, imageUrl, id } = this.props
 
         return (
-            <div className="card">
+            <div className="card text-dark my-3">
                 <div className="card-body">
                     <ul>
                         <li>{title}</li>

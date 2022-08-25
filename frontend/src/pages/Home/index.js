@@ -17,11 +17,9 @@ const Home = () => {
 
     return (
         currentUser ? (
-            <div className="main">
-                <div className="card">
-                    <div className="card-body">
-                        <Post Articles={true} NewArticle={false} UpdateArticle={false} />
-                    </div>
+            <div className="card bg-dark mx-auto my-3 container border-dark rounded py-3 text-white" style={{ width: "35rem" }}>
+                <div className="card-body">
+                    <Post Articles={true} NewArticle={false} UpdateArticle={false} />
                 </div>
             </div>
         ) : (
