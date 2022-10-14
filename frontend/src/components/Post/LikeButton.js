@@ -50,7 +50,7 @@ export const LikeButton = ({ post }) => {
       )
       .then((res) => {
         axios
-          .get(`http://localhost:8000/api/post/post/likeUnlike`, {
+          .get(`http://localhost:8000/api/post/likeUnlike`, {
             withCredentials: true,
           })
           .then((res) => {
@@ -65,7 +65,7 @@ export const LikeButton = ({ post }) => {
   // Enlever son like
   const unlike = () => {
     axios
-      .get(`http://localhost:8000/api/post/post/likeUnlike`, {
+      .get(`http://localhost:8000/api/post/likeUnlike`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -73,13 +73,13 @@ export const LikeButton = ({ post }) => {
           if (like.liker_id === uid && like.postLiked_id === post.id) {
             axios
               .get(
-                `http://localhost:8000/api/post/post/likeUnlike/getOneLike/${like.id}`,
+                `http://localhost:8000/api/post/likeUnlike/getOneLike/${like.id}`,
                 { withCredentials: true }
               )
               .then((res) => {
                 axios
                   .patch(
-                    `http://localhost:8000/api/post/post/likeUnlike/${post.id}`,
+                    `http://localhost:8000/api/post/likeUnlike/${post.id}`,
                     {
                       liker_id: uid,
                     },
