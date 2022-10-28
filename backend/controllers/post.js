@@ -89,76 +89,26 @@ exports.updateArticle = async (req, res) => {
   }
 };
 
-exports.likeUnlike = (req, res, next) => {
-  const userID = req.body.liker_id;
-  const postID = req.params.id;
-  const sqlSelect = `SELECT * FROM likes WHERE liker_id=? AND postLiked_id=?`;
-  Like.query(sqlSelect, [userID, postID], (err, result) => {
-    if (err) {
-      res.status(400).json({ err });
-    } else {
-      if (result.length != 0) {
-        const sqlDelete = `DELETE FROM likes WHERE liker_id=? AND postLiked_id=?`;
-        Like.query(sqlDelete, [userID, postID], (err, result) => {
-          if (err) {
-            res.status(400).json({ err });
-          } else {
-            res.status(200).json(result);
-          }
-        });
+exports.likes = (req, res, next) => {
+  //find the likes of the post with the user id
+  Like.findOne({ where: { id: req.body.id, IdUser: req.body.idUser } })
+    .then((Like) => {
+      //if the user has already liked the post, destroy the like
+      if (Like) {
+        Like.destroy({
+          where: { likes: -1, id: req.body.id, IdUser: req.body.idUser },
+        })
+          .then(() => res.status(205).json({ message: "Like supprimé !" }))
+          .catch((error) => res.status(400).json({ error }));
       } else {
-        const sqlInsert = `INSERT INTO likes (liker_id, postLiked_id) VALUES (?, ?)`;
-        Like.query(sqlInsert, [userID, postID], (err, result) => {
-          if (err) {
-            res.status(400).json({ err });
-          } else {
-            res.status(200).json(result);
-          }
-        });
+        //if the user has not liked the post, create a new like with the post id and user id
+        Like.create({
+          IdUser: req.params.id,
+          IdUser: req.body.id,
+        })
+          .then(() => res.status(201).json({ message: "Like créé !" }))
+          .catch((error) => res.status(400).json({ error }));
       }
-    }
-  });
-};
-
-exports.postLikedByUser = (req, res, next) => {
-  const userID = req.body.user;
-  const postID = req.params.id;
-  const sql = `SELECT * FROM likes WHERE liker_id=? AND postLiked_id=?`;
-  Like.query(sql, [userID, postID], (err, result) => {
-    if (err) {
-      res.status(400).json({ err });
-    } else {
-      res.status(200).json(result);
-    }
-  });
-};
-
-exports.countLikes = (req, res, next) => {
-  Like.findAll();
-  if (err) {
-    res.status(400).json({ err });
-  } else {
-    res.status(200).json(result);
-  }
-};
-
-exports.countAllLikes = (req, res, next) => {
-  Like.findAll();
-  if (err) {
-    res.status(400).json({ err });
-  } else {
-    res.status(200).json(result);
-  }
-};
-
-exports.getOneLike = (req, res, next) => {
-  const likeId = req.params.id;
-  const sql = `SELECT * FROM likes WHERE id=?`;
-  Like.query(sql, [likeId], (err, result) => {
-    if (err) {
-      res.status(400).json({ err });
-    } else {
-      res.status(200).json(result);
-    }
-  });
+    })
+    .catch((error) => res.status(500).json({ error }));
 };

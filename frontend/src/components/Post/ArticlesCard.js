@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { Component } from "react";
 import DeleteArticle from "./DeleteArticle";
-import { LikeButton } from "./LikeButton";
+import LikeButton from "./LikeButton";
 import UpdateButton from "./UpdateButton";
 class ArticlesCard extends Component {
   constructor(props) {
@@ -22,8 +22,8 @@ class ArticlesCard extends Component {
 
             <DeleteArticle id={id} />
             <UpdateButton id={id} />
-            <LikeButton id={id} />
           </ul>
+          <LikeButton id={id} />
         </div>
       </div>
     );
