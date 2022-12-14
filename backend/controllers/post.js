@@ -1,7 +1,7 @@
 const db = require("../models/index.js");
 const Post = db.Post;
 const User = db.User;
-const Like = db.Like;
+const Likes = db.Likes;
 
 exports.createPost = (req, res, next) => {
   const idUser = req.body.idUser;
@@ -91,23 +91,23 @@ exports.updateArticle = async (req, res) => {
 
 exports.likes = (req, res, next) => {
   //find the likes of the post with the user id
-  Like.findOne({ where: { id: req.body.id, IdUser: req.body.idUser } })
+  Likes.findOne({ where: { idPost: req.params.id, idUser: req.idUser } })
     .then((Like) => {
       //if the user has already liked the post, destroy the like
       if (Like) {
         Like.destroy({
-          where: { likes: -1, id: req.body.id, IdUser: req.body.idUser },
+          where: { likes: -1, id: req.params.id, idUser: req.idUser },
         })
           .then(() => res.status(205).json({ message: "Like supprimé !" }))
-          .catch((error) => res.status(400).json({ error }));
+          .catch((error) => res.status(401).json({ error }));
       } else {
         //if the user has not liked the post, create a new like with the post id and user id
-        Like.create({
-          IdUser: req.params.id,
-          IdUser: req.body.id,
+        Likes.create({
+          idPost: req.params.id,
+          idUser: req.idUser,
         })
           .then(() => res.status(201).json({ message: "Like créé !" }))
-          .catch((error) => res.status(400).json({ error }));
+          .catch((error) => res.status(402).json({ error }));
       }
     })
     .catch((error) => res.status(500).json({ error }));
