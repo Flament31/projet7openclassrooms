@@ -31,6 +31,7 @@ const Post = () => {
                 text={post.text}
                 imageUrl={post.imageUrl}
                 id={post.id}
+                likes={post.likes}
               />
             ))}
           </div>
