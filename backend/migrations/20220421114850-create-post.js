@@ -31,6 +31,12 @@ module.exports = {
       usersliked: {
         type: Sequelize.STRING,
       },
+      dislikes: {
+        type: Sequelize.INTEGER,
+      },
+      usersDisliked: {
+        type: Sequelize.STRING,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

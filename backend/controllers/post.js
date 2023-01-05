@@ -1,7 +1,6 @@
 const db = require("../models/index.js");
 const Post = db.Post;
 const User = db.User;
-const Likes = db.Likes;
 
 exports.createPost = (req, res, next) => {
   const idUser = req.body.idUser;

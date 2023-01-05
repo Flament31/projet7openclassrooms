@@ -8,6 +8,10 @@ module.exports = (sequelize, DataTypes) => {
       title: DataTypes.STRING,
       text: DataTypes.STRING,
       imageUrl: DataTypes.STRING,
+      likes: DataTypes.INTEGER,
+      usersliked: DataTypes.STRING,
+      dislikes: DataTypes.INTEGER,
+      usersDisliked: DataTypes.STRING,
     },
     {
       classMethods: {
