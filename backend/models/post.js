@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       text: DataTypes.STRING,
       imageUrl: DataTypes.STRING,
       likes: DataTypes.INTEGER,
-      usersliked: DataTypes.STRING,
+      usersLiked: DataTypes.STRING,
       dislikes: DataTypes.INTEGER,
       usersDisliked: DataTypes.STRING,
     },

@@ -90,28 +90,28 @@ exports.updateArticle = async (req, res) => {
 };
 
 exports.likePost = (req, res) => {
-  const userId = req.body.userId;
+  const idUser = req.body.idUser;
   const like = req.body.like;
-  const postId = req.params.id;
-  Post.findOne({ _id: postId })
+  const idPost = req.params.idPost;
+  Post.findOne({ _id: idPost })
     .then((post) => {
       if (like == 0) {
-        if (post.usersLiked.includes(userId)) {
-          post.usersLiked.splice(post.usersLiked.indexOf(userId), 1);
+        if (post.usersLiked.includes(idUser)) {
+          post.usersLiked.splice(post.usersLiked.indexOf(idUser), 1);
           post.likes -= 1;
         } else {
-          post.usersDisliked.splice(post.usersDisliked.indexOf(userId), 1);
+          post.usersDisliked.splice(post.usersDisliked.indexOf(idUser), 1);
           post.dislikes -= 1;
         }
       } else if (like == -1 || like == 1) {
         if (
-          !post[like == -1 ? "usersDisliked" : "usersLiked"].includes(userId)
+          !post[like == -1 ? "usersDisliked" : "usersLiked"].includes(idUser)
         ) {
-          post[like == -1 ? "usersDisliked" : "usersLiked"].push(userId);
+          post[like == -1 ? "usersDisliked" : "usersLiked"].push(idUser);
           post[like == -1 ? "dislikes" : "likes"] += 1;
         } else {
           post[like == -1 ? "usersLiked" : "usersDisliked"].splice(
-            post[like == -1 ? "usersLiked" : "usersDisliked"].indexOf(userId),
+            post[like == -1 ? "usersLiked" : "usersDisliked"].indexOf(idUser),
             1
           );
           post[like == -1 ? "likes" : "dislikes"] -= 1;
@@ -122,5 +122,5 @@ exports.likePost = (req, res) => {
         .then(() => res.status(201).json({ message: "Like/Dislike envoyé !" }))
         .catch((error) => res.status(400).json({ error }));
     })
-    .catch((error) => res.status(404).json({ error }));
+    .catch((error) => res.status(500).json({ error }));
 };

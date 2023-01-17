@@ -10,7 +10,7 @@ class ArticlesCard extends Component {
   }
 
   render() {
-    const { title, text, imageUrl, id, likes } = this.props;
+    const { title, text, imageUrl, id } = this.props;
 
     return (
       <div className="card text-dark my-3">
@@ -24,7 +24,6 @@ class ArticlesCard extends Component {
             <UpdateButton id={id} />
           </ul>
           <LikeButton id={id} />
-          <p>{likes}</p>
         </div>
       </div>
     );
@@ -36,7 +35,6 @@ ArticlesCard.propTypes = {
   imageUrl: PropTypes.string,
   text: PropTypes.string,
   id: PropTypes.number,
-  likes: PropTypes.number,
 };
 
 ArticlesCard.defaultProps = {
@@ -44,7 +42,6 @@ ArticlesCard.defaultProps = {
   imageUrl: "",
   text: "",
   id: "",
-  likes: "",
 };
 
 export default ArticlesCard;

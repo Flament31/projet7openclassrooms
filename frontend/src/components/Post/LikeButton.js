@@ -1,17 +1,7 @@
 import axios from "axios";
 import React from "react";
-import { useState } from "react";
-
-const like = (id) => {
-  return axios.post(`http://localhost:8000/api/post/like/${id}`, {
-    data: {
-      id,
-    },
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-};
+import { useState, useEffect } from "react";
+import AuthService from "../../utils/Services/auth.service";
 
 //use svg for the heart icon
 const solidHeart = (
@@ -45,21 +35,70 @@ const emptyHeart = (
   </svg>
 );
 
-function LikeButton({ authorId, id, liked, likes }) {
-  const [isLiked, setIsLiked] = useState(liked);
-  const [likesState, setLikes] = useState(likes);
+const like = (id, likes, idUser) => {
+  const idPost = Object.values(id);
+  return axios
+    .post(`http://localhost:8000/api/post/${idPost}/like`, {
+      data: {
+        likes,
+        idUser,
+        id,
+      },
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then((res) => {
+      if (res.data) {
+        console.log(res.data);
+      }
+
+      return res.data;
+    });
+};
+
+function LikeButton(id) {
+  const [isLiked, setIsLiked] = useState("");
+  const [likes, setLikes] = useState("");
+  const idPost = Object.values(id);
+  const user = AuthService.getCurrentUser();
+  const idCurrentUser = user.idUser;
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8000/api/post/${idPost}`, {
+        data: {
+          id,
+        },
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        setLikes(res.data.likes);
+        if (idCurrentUser === res.data.idUser && likes >= 1) {
+          setIsLiked(1);
+        } else {
+          setIsLiked(0);
+        }
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  });
 
   //function to set the state if there is a like
   const likeAction = (id) => {
     like(id)
-      .then((res) => {
-        if (res.status === 201) {
+      .then(() => {
+        if (isLiked === 0) {
           setIsLiked(1);
-          setLikes(likesState + 1);
+          setLikes(likes + 1);
           console.log("like ok");
-        } else if (res.status === 205) {
+        } else if (isLiked === 1) {
           setIsLiked(0);
-          setLikes(likesState - 1);
+          setLikes(likes - 1);
           console.log("unlike ok");
         }
       })
@@ -76,7 +115,7 @@ function LikeButton({ authorId, id, liked, likes }) {
           //ternaire operator to set the correct svg depending of the like
           isLiked ? solidHeart : emptyHeart
         }
-        <span>{isLiked ? likesState : likes}</span>
+        <span>{isLiked ? likes : likes}</span>
       </span>
     </React.Fragment>
   );
