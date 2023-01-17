@@ -40,7 +40,6 @@ exports.getOnePost = (req, res) => {
     .then((data) => {
       if (data) {
         res.send(data);
-        console.log(data);
       } else {
         res.status(404).send({
           message: `Cannot find post with id=${id}.`,

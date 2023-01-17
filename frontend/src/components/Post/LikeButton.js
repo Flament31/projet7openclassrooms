@@ -1,6 +1,6 @@
 import axios from "axios";
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import AuthService from "../../utils/Services/auth.service";
 
 //use svg for the heart icon
@@ -64,29 +64,27 @@ function LikeButton(id) {
   const user = AuthService.getCurrentUser();
   const idCurrentUser = user.idUser;
 
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8000/api/post/${idPost}`, {
-        data: {
-          id,
-        },
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((res) => {
-        setLikes(res.data.likes);
-        if (idCurrentUser === res.data.idUser && likes >= 1) {
-          setIsLiked(1);
-        } else {
-          setIsLiked(0);
-        }
-        console.log(res.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  });
+  axios
+    .get(`http://localhost:8000/api/post/${idPost}`, {
+      data: {
+        id,
+      },
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then((res) => {
+      setLikes(res.data.likes);
+      if (idCurrentUser === res.data.idUser && likes >= 1) {
+        setIsLiked(1);
+      } else {
+        setIsLiked(0);
+      }
+      console.log(res.data);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 
   //function to set the state if there is a like
   const likeAction = (id) => {
