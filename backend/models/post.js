@@ -10,8 +10,6 @@ module.exports = (sequelize, DataTypes) => {
       imageUrl: DataTypes.STRING,
       likes: DataTypes.INTEGER,
       usersLiked: DataTypes.STRING,
-      dislikes: DataTypes.INTEGER,
-      usersDisliked: DataTypes.STRING,
     },
     {
       classMethods: {

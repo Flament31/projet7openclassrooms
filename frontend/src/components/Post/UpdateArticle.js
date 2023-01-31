@@ -78,10 +78,13 @@ const UpdateArticle = () => {
             autoComplete="off"
           />
         </div>
-        <div className="form-group" class="text-white">
-          <label htmlFor="nom">Partager une image</label>
+        <div className="form-group">
+          <label htmlFor="nom" className="text-white">
+            Partager une image
+          </label>
           <br />
           <input
+            className="text-white"
             type="file"
             id="file"
             name="imageUrl"

@@ -88,38 +88,23 @@ exports.updateArticle = async (req, res) => {
   }
 };
 
-exports.likePost = (req, res) => {
-  const idUser = req.body.idUser;
-  const like = req.body.like;
-  const idPost = req.params.idPost;
-  Post.findOne({ _id: idPost })
-    .then((post) => {
-      if (like == 0) {
-        if (post.usersLiked.includes(idUser)) {
-          post.usersLiked.splice(post.usersLiked.indexOf(idUser), 1);
-          post.likes -= 1;
-        } else {
-          post.usersDisliked.splice(post.usersDisliked.indexOf(idUser), 1);
-          post.dislikes -= 1;
-        }
-      } else if (like == -1 || like == 1) {
-        if (
-          !post[like == -1 ? "usersDisliked" : "usersLiked"].includes(idUser)
-        ) {
-          post[like == -1 ? "usersDisliked" : "usersLiked"].push(idUser);
-          post[like == -1 ? "dislikes" : "likes"] += 1;
-        } else {
-          post[like == -1 ? "usersLiked" : "usersDisliked"].splice(
-            post[like == -1 ? "usersLiked" : "usersDisliked"].indexOf(idUser),
-            1
-          );
-          post[like == -1 ? "likes" : "dislikes"] -= 1;
-        }
+exports.likePost = async (req, res) => {
+  try {
+    const postUpdate = await Post.update(
+      {
+        idUser: req.body.idUser,
+        likes: req.body.likes,
+        idPost: req.params.idPost,
+      },
+      {
+        where: {
+          id: req.body.id,
+        },
       }
-      post
-        .save()
-        .then(() => res.status(201).json({ message: "Like/Dislike envoyé !" }))
-        .catch((error) => res.status(400).json({ error }));
-    })
-    .catch((error) => res.status(500).json({ error }));
+    );
+
+    res.status(201).send({ post: postUpdate, message: `Like ajouté/supprimé` });
+  } catch (error) {
+    return res.status(400).send({ error });
+  }
 };
