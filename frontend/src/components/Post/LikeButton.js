@@ -35,26 +35,6 @@ const emptyHeart = (
   </svg>
 );
 
-const like = (idUser, likes, idPost) => {
-  return axios
-    .post(`http://localhost:8000/api/post/${idPost}/like`, {
-      data: {
-        likes,
-        idUser,
-      },
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-    .then((res) => {
-      if (res.data) {
-        console.log(res.data);
-      }
-
-      return res.data;
-    });
-};
-
 function LikeButton(id) {
   const [isLiked, setIsLiked] = useState("");
   const [likes, setLikes] = useState("");
@@ -87,8 +67,18 @@ function LikeButton(id) {
   //function to set the state if there is a like
   const likeAction = (id) => {
     const idPost = Object.values(id);
+    const idUser = idCurrentUser;
 
-    like(idPost)
+    axios
+      .post(`http://localhost:8000/api/post/${idPost}/like`, {
+        data: {
+          likes,
+          idUser,
+        },
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
       .then(() => {
         if (isLiked === 0) {
           setIsLiked(1);
