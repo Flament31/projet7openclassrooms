@@ -65,9 +65,19 @@ function LikeButton(id) {
     });
 
   //function to set the state if there is a like
-  const likeAction = (id) => {
+  const likeAction = (id, e) => {
     const idPost = Object.values(id);
     const idUser = idCurrentUser;
+
+    if (isLiked === 0) {
+      setIsLiked(1);
+      setLikes(likes + 1);
+      console.log("like ok");
+    } else if (isLiked === 1) {
+      setIsLiked(0);
+      setLikes(likes - 1);
+      console.log("unlike ok");
+    }
 
     axios
       .post(`http://localhost:8000/api/post/${idPost}/like`, {
@@ -79,17 +89,7 @@ function LikeButton(id) {
           "Content-Type": "application/json",
         },
       })
-      .then(() => {
-        if (isLiked === 0) {
-          setIsLiked(1);
-          setLikes(likes + 1);
-          console.log("like ok");
-        } else if (isLiked === 1) {
-          setIsLiked(0);
-          setLikes(likes - 1);
-          console.log("unlike ok");
-        }
-      })
+
       .catch((err) => {});
   };
 
