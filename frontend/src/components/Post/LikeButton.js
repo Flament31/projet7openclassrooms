@@ -1,6 +1,6 @@
 import axios from "axios";
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AuthService from "../../utils/Services/auth.service";
 
 //use svg for the heart icon
@@ -36,61 +36,83 @@ const emptyHeart = (
 );
 
 function LikeButton(id) {
-  const [isLiked, setIsLiked] = useState("");
-  const [likes, setLikes] = useState("");
   const idPost = Object.values(id);
   const user = AuthService.getCurrentUser();
   const idCurrentUser = user.idUser;
-
-  axios
-    .get(`http://localhost:8000/api/post/${idPost}`, {
-      data: {
-        id,
-      },
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-    .then((res) => {
-      setLikes(res.data.likes);
-      if (idCurrentUser === res.data.idUser && likes >= 1) {
-        setIsLiked(1);
-      } else {
-        setIsLiked(0);
-      }
-      console.log(res.data);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+  const [isLiked, setIsLiked] = useState("");
+  const [likes, setLikes] = useState("");
+  const [userLiked, setUserLiked] = useState("");
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8000/api/post/${idPost}`, {
+        data: {
+          id,
+        },
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        setLikes(res.data.likes);
+        console.log(res.data.usersLiked);
+        setUserLiked(JSON.parse(res.data.usersLiked));
+        console.log(userLiked);
+        if (idCurrentUser === userLiked && likes >= 1) {
+          setIsLiked(true);
+        } else {
+          setIsLiked(false);
+        }
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  });
 
   //function to set the state if there is a like
-  const likeAction = (id, e) => {
+  const likeAction = (id) => {
     const idPost = Object.values(id);
     const idUser = idCurrentUser;
 
-    if (isLiked === 0) {
-      setIsLiked(1);
+    if (isLiked === false) {
+      setIsLiked(true);
       setLikes(likes + 1);
       console.log("like ok");
-    } else if (isLiked === 1) {
-      setIsLiked(0);
+    } else if (isLiked === true) {
+      setIsLiked(false);
       setLikes(likes - 1);
       console.log("unlike ok");
     }
+
+    if (idCurrentUser === userLiked) {
+      delete userLiked.idCurrentUser;
+    } else {
+      new setUserLiked(idCurrentUser);
+    }
+
+    const usersLiked = JSON.stringify(userLiked);
+    console.log(usersLiked);
+
+    console.log(likes);
+    console.log(idPost);
 
     axios
       .post(`http://localhost:8000/api/post/${idPost}/like`, {
         data: {
           likes,
           idUser,
+          usersLiked,
         },
         headers: {
           "Content-Type": "application/json",
         },
       })
-
-      .catch((err) => {});
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
